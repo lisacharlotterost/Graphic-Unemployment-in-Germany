@@ -1,4 +1,4 @@
-Graphic-Unemployment-in-Germany
+Graphic: Unemployment in Germany
 ===============================
 
 This is a German graphic based on the [data about unemployment in Germany between 2005 and 2014](https://docs.google.com/spreadsheet/ccc?key=0Aq_8fKCw925zdGtmLUJFbTNHcS1fSDNxMXhpckNUemc) that is used by ZEIT Online for [their information graphic](http://www.zeit.de/wirtschaft/arbeitslosigkeit) about the topic. The graphic shows how the unemployment rate in Germany goes down in all German counties in the time span of nine years.
