@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+  
+<meta charset="utf-8">
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>	  
+<style type="text/css">
+  
+
+html, body {
+  text-align: center;
+  width: 1190px;
+  margin:0 auto;
+  margin-top:40px;
+  background:#e0e0e0;  /*background:#f6ffe2;or 2d314d */
+
+}
+
+h1 {
+  font-family: Helvetica,sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  }
+    
+    
+h2 {
+  font-family: Helvetica,sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin:0;
+  display: inline;
+    }
+    
+    
+.wholeChart {
+  border: 0px solid;
+  margin-top: 103px;
+  }
+  
+  
+.lines {
+  stroke-width:1px;
+  stroke-linecap:round;
+  stroke-opacity: 0.6;
+  }
+  
+.lines:hover,
+.lines:focus,
+.lines:active{
+  stroke-width:10px;
+  }
+ 
+.axis line, .axis path {
+  display: none;
+  }
+
+
+.axis text {
+    font-family: Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+
+}
+
+.titel{
+  text-align: left;
+  position: absolute;
+  margin-left:8px;
+  margin-top: -30px;
+
+  }
+
+#tooltip {
+  position: absolute;
+  width: 300px;
+  height: auto;
+  padding-left: 20px;
+  pointer-events: none;
+  margin-left: 850px;
+  padding-bottom: 70px;
+  border-left: 1px solid #fff;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+#tooltip p {
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+}
+
+
+.textpiece {
+  position: absolute;
+  margin-left: 0;
+  width: 560px;
+  margin-top: 50px;
+  margin-left:8px;
+  text-align: left;
+  font-family: Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.axis_Text {
+  position: absolute;
+  width: 1220px;
+  margin-top: 565px;
+  text-align: right;
+  font-family: Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.axis Text p {
+  text-align: right;
+}
+
+
+#textpiece_START.hidden {
+  display: none;
+  }
+
+#textpiece_DIFF.hidden {
+  display: none;
+  }
+  
+#textpiece_MAX.hidden {
+  display: none;
+  }
+  
+#textpiece_MIN.hidden {
+  display: none;
+  }
+  
+#textpiece_PERCENTAGE.hidden {
+  display: none;
+  }
+  
+  
+.buttons {
+  text-align: left;
+  position: absolute;
+  margin-left: 630px;
+  padding-left:20px;
+  padding-bottom:27px;
+  border-left: 1px solid #fff;
+  }
+
+#sort {
+  height:auto;
+  background-color: #e0e0e0;
+  padding: 6px 8px 6px 8px;
+  margin-top:4px;
+  border: 1px solid #fff;
+  text-align: left;
+  border-radius: 0px;
+  }
+  
+#sort:hover, 
+#sort:active,
+#sort:focus{
+  background-color: #393939;
+  color:white;
+  outline: inherit;
+  cursor: pointer;
+  }
+
+#sort p {
+  text-decoration: none;
+  font-family: Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+
+
+</style>
+</head>
+  
+  
+
+<body>
+
+<div class="titel">
+<h1>Deutsche Arbeitslosigkeit 2005-2014</h1>
+</div>
+
+<div id="textpiece_START">
+  <div class="textpiece">  
+    Diese Grafik zeigt die Senkung der Arbeitslosenquote aller Kreise in Deutschland zwischen 2005 und 2014. Die Länge der Linien und die Farben entsprechen der Differenz zwischen der Arbeitslosenquote im September 2005 (oberes Ende der Linie) und der Arbeitslosigkeit im September 2014 (unteres Ende).
+  </div>
+    <div class="axis_Text">sortiert nach höherer prozentualen Differenz &rarr;</div>
+  </div>
+  
+<div id="textpiece_DIFF" class="hidden">
+  <div class="textpiece">
+     Kreise mit anfänglich hoher Arbeitslosigkeit hatten mehr Potential, eine hohe Differenz zwischen Maximum und Minimum zu haben. Links oben in der Grafik sieht man die Kreise, die dieses Potential nicht genutzt haben. 
+    </div>
+    <div class="axis_Text">sortiert nach höheren Differenz nach Prozentpunkten &rarr;</div>
+  </div>
+
+<div id="textpiece_MAX" class="hidden">
+  <div class="textpiece">
+     2005 betrug die durchschnittliche Arbeitslosenquote in Deutschland 11%. In einigen bayrischen Kreisen war sie bereits unter 4%, doch der Kreis Uecker-Randow am rechten Rand der Grafik musste mit einer Arbeitslosenquote von mehr als 25% kämpfen.  
+  </div>
+    <div class="axis_Text">sortiert nach höherer Ausgangs-Arbeitslosigkeit &rarr;</div>
+  </div>
+
+<div id="textpiece_MIN" class="hidden">
+  <div class="textpiece">
+     Jeder einzelne Kreis in Deutschland verbesserte seine Arbeitslosenquote bis 2014; die gesamte schwarze Linie rutscht nach unten. Allerdings machen nicht alle den gleichen Fortschritt: Manche Kreise senken ihre Arbeitslosenquote prozentual oder nach Prozentpunkten mehr, andere weniger. 
+  </div>
+    <div class="axis_Text">sortiert nach höherer End-Arbeitslosigkeit &rarr;</div>
+  </div>
+  
+<div id="textpiece_PERCENTAGE" class="hidden">
+  <div class="textpiece">
+     Es war für Kreise mit hoher Arbeitslosigkeit einfach, viele Prozentpunkte abzubauen – prozentual eine große Differenz zwischen 2005 und 2014 zu schaffen, ist die andere hohe Kunst. Kreise mit mehr als 70% prozentualer Differenz befinden sich am rechten Rand der Grafik.
+  </div>
+    <div class="axis_Text">sortiert nach höherer prozentualen Differenz &rarr;</div>
+  </div>
+  
+<div class="buttons">
+<h2>Sortiere nach&emsp;</h2><br>
+  <button id="sort" onclick="sortMAX()">Arbeitslosigkeit 2005</button><br>
+  <button id="sort" onclick="sortMIN()">Arbeitslosigkeit 2014</button><br>
+  <button id="sort" onclick="sortDIFF()">Prozentpunkte Differenz</button><br>
+  <button id="sort" onclick="sortPERCENTAGE()">Prozentuale Differenz</button>
+</div>
+
+<div class="lines"></div>
+
+<div id="tooltip" class="hidden">
+		<p><strong><span id="NAME">100</span></strong></p>
+        <p><span id="MAX">100</span>%</p>
+		<p><span id="MIN">100</span>%</p>
+        <p><span id="DIFF">100</span> Prozentpunkte</p>
+        <p><span id="PERCENTAGE">100</span>% Differenz</p>
+</div>
+
+
+
+<script>
+
+
+
+// V A R S
+
+
+var padding = {top: 0, right: 0, bottom: 50, left: 40},
+    width = 1150;
+    height = 500 - padding.top - padding.bottom;
+
+var y = d3.scale.linear()
+    .range([height,-10]);
+	
+var x = d3.scale.linear()
+    .range([0, width+20]);
+	
+var color = d3.scale.linear()
+    .range(["#cc0000", "#0f0"]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+	
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+	.tickValues([0,5,10,15,20,25])
+	.tickFormat(function(d) { return d + "%"; });    
+
+
+
+
+// D A T A 
+
+
+
+d3.csv("ZEIT_Unemployment_Rates.csv", type, function(error, data) {
+  y.domain([0, 30])
+  x.domain([0, d3.max(data, function(d,i) {return i;})])
+  color.domain([0, d3.max(data, function(d) {return d.MAX-15;})]);
+
+
+               
+window.chart = d3.select("body")
+  .append("svg")
+  .attr("class","wholeChart")
+  .attr("width",width + padding.left + padding.right)
+  .attr("height",height + padding.top + padding.bottom)
+  .style("padding-left",padding.left)
+  .style("padding-top",padding.top)
+  .style("padding-right",padding.right);
+  
+
+// A X I S
+
+var newAxis = chart.append("g")
+  .attr("class","axis")
+  .call(yAxis);
+  
+chart.selectAll("line.y")
+  .data(y.ticks(5))
+  .enter().append("line")
+  .attr("x1", 2)
+  .attr("x2", width+200)
+  .attr("y1", y)
+  .attr("y2", y)
+  .style("stroke", "white");
+
+  
+  
+// D E F I N E   G R O U P
+  
+  
+window.LinesAndCircles = chart.selectAll("g.groupchart")
+  .data(data)
+  .enter()
+  .append("g")
+  .attr("class","groupchart")
+  .attr("transform", function(d,i) {return "translate("+x(i)+","+y(d.MAX)+")";})
+
+  
+
+
+// T O O L T I P S
+
+.on("mouseover", function(d) {
+
+//Update the tooltip position and value
+d3.select("#tooltip")
+  .select("#NAME")
+  .text("Kreis: "+d.NAME);
+d3.select("#tooltip")
+  .select("#DIFF")
+  .text("Differenz: "+d.DIFF);
+d3.select("#tooltip")
+  .select("#MIN")
+  .text("Arbeitslosigkeit 2014: "+d.MIN);
+d3.select("#tooltip")
+  .select("#MAX")
+  .text("Arbeitslosigkeit 2005: "+d.MAX);
+d3.select("#tooltip")
+  .select("#PERCENTAGE")
+  .text("Prozentual: "+d.PERCENTAGE);
+  
+//Show the tooltip
+d3.select("#tooltip").classed("hidden", false);
+});
+
+
+
+
+// A D D   L I N E S   A N D   C I R C L E S 
+
+//Append lines
+Lines = LinesAndCircles.append("line")
+  .attr("class","lines")
+  .attr("x1", "0")
+  .attr("y1", "0")
+  .attr("x2", "0")
+  .attr("y2", function(d) {return height-(y(d.DIFF))})
+  .style("stroke",function(d) {return color(d.DIFF)});
+
+//Append circles
+CircleOben = LinesAndCircles.append("circle")
+  .attr("cx", "0")
+  .attr("cy", "0")
+  .attr("r","2px");	
+  
+CircleUnten = LinesAndCircles.append("circle")
+  .attr("cx", "0")
+  .attr("cy", function(d) {return height-(y(d.DIFF))})
+  .attr("r","2px");	
+  
+  
+});
+
+
+
+// S O R T I N G
+
+var sortDIFF = function () {
+    LinesAndCircles
+    .sort(function(a, b) {
+					return d3.ascending(a.DIFF, b.DIFF);
+					})
+	.transition()
+	.duration(1000)
+    .attr("transform", function(d,i) {return "translate("+x(i)+","+y(d.MAX)+")";});
+    d3.select("#textpiece_START").classed("hidden", true);
+    d3.select("#textpiece_DIFF").classed("hidden", false);
+    d3.select("#textpiece_MAX").classed("hidden", true);
+    d3.select("#textpiece_MIN").classed("hidden", true);
+    d3.select("#textpiece_PERCENTAGE").classed("hidden", true);
+	};
+ 
+var sortMAX = function () {
+    LinesAndCircles
+    .sort(function(a, b) {
+					return d3.ascending(a.MAX, b.MAX);
+					})
+	.transition()
+	.duration(1000)
+    .attr("transform", function(d,i) {return "translate("+x(i)+","+y(d.MAX)+")";});
+    
+    d3.select("#textpiece_START").classed("hidden", true);
+    d3.select("#textpiece_DIFF").classed("hidden", true);
+    d3.select("#textpiece_MAX").classed("hidden", false);
+    d3.select("#textpiece_MIN").classed("hidden", true);
+    d3.select("#textpiece_PERCENTAGE").classed("hidden", true);
+	};
+  
+var sortMIN = function () {
+    LinesAndCircles
+    .sort(function(a, b) {
+					return d3.ascending(a.MIN, b.MIN);
+					})
+	.transition()
+	.duration(1000)
+    .attr("transform", function(d,i) {return "translate("+x(i)+","+y(d.MAX)+")";});
+    d3.select("#textpiece_START").classed("hidden", true);
+    d3.select("#textpiece_DIFF").classed("hidden", true);
+    d3.select("#textpiece_MAX").classed("hidden", true);
+    d3.select("#textpiece_MIN").classed("hidden", false);
+    d3.select("#textpiece_PERCENTAGE").classed("hidden", true);
+	};
+    
+var sortPERCENTAGE = function () {
+    LinesAndCircles
+    .sort(function(a, b) {
+					return d3.ascending(a.PERCENTAGE, b.PERCENTAGE);
+					})
+	.transition()
+	.duration(1000)
+    .attr("transform", function(d,i) {return "translate("+x(i)+","+y(d.MAX)+")";});
+    d3.select("#textpiece_START").classed("hidden", true);
+    d3.select("#textpiece_DIFF").classed("hidden", true);
+    d3.select("#textpiece_MAX").classed("hidden", true);
+    d3.select("#textpiece_MIN").classed("hidden", true);
+    d3.select("#textpiece_PERCENTAGE").classed("hidden", false);
+	};
+    
+    
+// coerce to number
+function type(d) {
+  d.MIN = +d.MIN; 
+  d.MAX = +d.MAX; 
+  d.DIFF = +d.DIFF; 
+  d.PERCENTAGE = +d.PERCENTAGE; 
+  return d;
+}
+
+
+
+</script>  
+</body>
+</html>
